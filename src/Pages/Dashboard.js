@@ -5,6 +5,7 @@ import { Avatar, Badge, Tooltip, Layout, Menu, Breadcrumb, Empty } from 'antd';
 import { GetBreadcrumb, GetItemMenu } from "../components/Navigation";
 import VuGlobal from "./VuGlobal";
 import GestionRH from "./GestionRH";
+import Entreprise from "./Entreprise";
 
 const { Sider } = Layout;
 
@@ -67,6 +68,8 @@ export default function Dashboard() {
             <VuGlobal />
           ) : menu === 'gest-fiche' ? (
             <GestionRH />
+          ) : menu === 'entreprise' ? (
+            <Entreprise />
           ) : (
             <div style={{ display: "flex", flexDirection:"column", justifyContent: "center", alignItems: "center" , height:"100%"}}>
               <Empty description={false} />

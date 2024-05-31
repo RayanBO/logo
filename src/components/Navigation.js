@@ -14,6 +14,7 @@ import {
     ToolOutlined,
     AccountBookOutlined,
     UserOutlined,
+    FileProtectOutlined
 } from '@ant-design/icons';
 
 // Fonction pour obtenir les éléments du menu
@@ -23,6 +24,11 @@ export function GetItemMenu() {
             key: 'acceuil',
             icon: <HomeOutlined />,
             label: 'Accueil',
+        },
+        {
+            key: 'entreprise',
+            icon: <FileProtectOutlined />,
+            label: 'Entreprise',
         },
         {
             key: 'gest-fiche',

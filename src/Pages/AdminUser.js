@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { List, Form, Input, Button, Row, Col, Typography, DatePicker, Select, Spin } from 'antd';
+import { List, Form, Input, Button, Row, Col, Typography, DatePicker, Select, Skeleton } from 'antd';
 import dayjs from 'dayjs';
 import { getAllUsers, signupUser, updateUser, deleteUser } from '../components/Db';
 
@@ -85,7 +85,7 @@ const AdminUser = () => {
         <Row gutter={16}>
             <Col span={8}>
                 <Title level={4}>Liste des utilisateurs</Title>
-                {loading ? <Spin /> : (
+                <Skeleton loading={loading}>
                     <List
                         bordered
                         dataSource={users}
@@ -106,7 +106,7 @@ const AdminUser = () => {
                         )}
                         style={{ maxHeight: '400px', overflowY: 'auto' }}
                     />
-                )}
+                </Skeleton>
             </Col>
             <Col span={16}>
                 <Title level={4}>{selectedUser ? 'Modifier l\'utilisateur' : 'Ajouter un utilisateur'}</Title>
