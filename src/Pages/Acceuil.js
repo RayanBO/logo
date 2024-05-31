@@ -4,7 +4,7 @@ import Dashboard from "./Dashboard";
 import Login from "./Login";
 
 export default function Acceuil() {
-    const [isAuthenticated, setIsAuthenticated] = useState(true);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userData, setUserData] = useState(null);
 
     const handleLoginSuccess = (userData) => {
