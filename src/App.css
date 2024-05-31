@@ -3,3 +3,24 @@
 .breadcrumb-white .ant-breadcrumb-separator {
     color: white !important;
 }
+
+
+.logo-text {
+    font-weight: 700;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin-top: 16px;
+    margin-left: 30px;
+    margin-right: 16px;
+    margin-bottom: 16px;
+}
+
+.logo-text>div {
+    margin-top: 3px;
+    font-family: 'monospace';
+    /* letter-spacing: .25rem; */
+}

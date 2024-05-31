@@ -134,9 +134,17 @@ export const getAllUsers = async () => {
 
 export const updateUser = async (userId, updatedUser) => {
   try {
-    const userDocRef = doc(db, "users", userId);
-    await updateDoc(userDocRef, updatedUser);
-    message.success("Utilisateur mis à jour avec succès !");
+    const usersCollection = collection(db, "users");
+    const q = query(usersCollection, where("id", "==", userId));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      const userDocRef = querySnapshot.docs[0].ref;
+      await updateDoc(userDocRef, updatedUser);
+      message.success("Utilisateur mis à jour avec succès !");
+    } else {
+      throw new Error("Utilisateur introuvable");
+    }
   } catch (error) {
     message.error("Erreur lors de la mise à jour de l'utilisateur : " + error.message);
     throw new Error(error.message);
@@ -145,9 +153,17 @@ export const updateUser = async (userId, updatedUser) => {
 
 export const deleteUser = async (userId) => {
   try {
-    const userDocRef = doc(db, "users", userId);
-    await deleteDoc(userDocRef);
-    message.success("Utilisateur supprimé avec succès !");
+    const usersCollection = collection(db, "users");
+    const q = query(usersCollection, where("id", "==", userId));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      const userDocRef = querySnapshot.docs[0].ref;
+      await deleteDoc(userDocRef);
+      message.success("Utilisateur supprimé avec succès !");
+    } else {
+      throw new Error("Utilisateur introuvable");
+    }
   } catch (error) {
     message.error("Erreur lors de la suppression de l'utilisateur : " + error.message);
     throw new Error(error.message);
