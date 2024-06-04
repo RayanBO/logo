@@ -7,7 +7,7 @@ import VuGlobal from "./VuGlobal";
 import GestionRH from "./GestionRH";
 import Entreprise from "./Entreprise";
 
-const { Sider } = Layout;
+const { Sider, Header, Content } = Layout;
 
 export default function Dashboard() {
   const [menu, setMenu] = useState('acceuil');
@@ -15,11 +15,11 @@ export default function Dashboard() {
 
   const items = GetItemMenu('RESPONSABLE RH');
   const url = 'url.com/pdp';
-  const tootlipPdp = "NOM PRENOM - Vous avez 1 Notification 😊"
+  const tooltipPdp = "NOM PRENOM - Vous avez 1 Notification 😊";
 
   return (
     <Layout style={{ height: "100vh" }}>
-      <div style={{ color: "white", backgroundColor: "#001529", display: "flex", justifyContent: "space-between" }}>
+      <Header style={{ color: "white", backgroundColor: "#001529", display: "flex", justifyContent: "space-between", padding: 0 }}>
         <div
           style={{
             display: "flex",
@@ -30,11 +30,11 @@ export default function Dashboard() {
             <div>LOGO</div>
           </div>
           <Breadcrumb
-            style={{ color: "white" }}
+            style={{ color: "white", marginLeft: 16 }}
             items={GetBreadcrumb(menu)}
           />
         </div>
-        <Tooltip placement="bottomRight" title={tootlipPdp}>
+        <Tooltip placement="bottomRight" title={tooltipPdp}>
           <div style={{ display: "flex", margin: "10px", alignItems: "center" }}>
             <div>NOM PRENOMS - TITRE</div>
             <div style={{ margin: "5px 20px" }}>
@@ -44,7 +44,7 @@ export default function Dashboard() {
             </div>
           </div>
         </Tooltip>
-      </div>
+      </Header>
       <Layout>
         <Sider
           width={200}
@@ -52,6 +52,7 @@ export default function Dashboard() {
           collapsible
           collapsed={collapsed}
           onCollapse={(collapsed) => setCollapsed(collapsed)}
+          style={{ backgroundColor: "#001529" }}
         >
           <Menu
             defaultSelectedKeys={['1']}
@@ -64,18 +65,20 @@ export default function Dashboard() {
           />
         </Sider>
         <Layout style={{ padding: '0' }}>
-          {menu === 'acceuil' ? (
-            <VuGlobal />
-          ) : menu === 'gest-fiche' ? (
-            <GestionRH />
-          ) : menu === 'entreprise' ? (
-            <Entreprise />
-          ) : (
-            <div style={{ display: "flex", flexDirection:"column", justifyContent: "center", alignItems: "center" , height:"100%"}}>
-              <Empty description={false} />
-              Dévelopement en cours ...
-            </div>
-          )}
+          <Content style={{ margin: 0, overflow: 'auto' }}> {/* Contenu scrollable */}
+            {menu === 'acceuil' ? (
+              <VuGlobal />
+            ) : menu === 'gest-fiche' ? (
+              <GestionRH />
+            ) : menu === 'entreprise' ? (
+              <Entreprise />
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "100%" }}>
+                <Empty description={false} />
+                Développement en cours ...
+              </div>
+            )}
+          </Content>
         </Layout>
       </Layout>
     </Layout>

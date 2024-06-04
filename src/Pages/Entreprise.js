@@ -1,165 +1,97 @@
-import React, { useState } from "react";
-import { Layout, Menu, Card, Form, Input, Button, Modal , List } from "antd";
-import { FileAddOutlined } from '@ant-design/icons';
+import React, { useState, useEffect } from 'react';
+import { Layout, Row, Col, Card, Form, Input, Button } from 'antd';
+// import { Chart } from '@antv/g2';
 
-const { Content, Sider } = Layout;
+const { Content } = Layout;
+
+const initialData = {
+    name: "Entreprise ABC",
+    address: "123 Rue Principale",
+    code: "12345",
+    raisonSocial: "Fourniture de services",
+    nifStat: "987654321",
+};
 
 export default function Entreprise() {
-    const [selectedEnterprise, setSelectedEnterprise] = useState(null);
-    const [selectedOption, setSelectedOption] = useState(null);
-    const [isModalVisible, setIsModalVisible] = useState(false);
-    const [newEnterprise, setNewEnterprise] = useState({
-        code: "",
-        raisonSociale: "",
-        nif: "",
-        stat: "",
-    });
+    const [form] = Form.useForm();
+    const [data, setData] = useState(initialData);
 
-    const [enterprises, setEnterprises] = useState([
-        { code: "E1", raisonSociale: "Entreprise 1", nif: "NIF1", stat: "STAT1" },
-        { code: "E2", raisonSociale: "Entreprise 2", nif: "NIF2", stat: "STAT2" },
-        { code: "E3", raisonSociale: "Entreprise 3", nif: "NIF3", stat: "STAT3" }
-    ]);
+    // useEffect(() => {
+    //     // Prepare data
+    //     const dataChart = [
+    //         { genre: 'Sports', sold: 275 },
+    //         { genre: 'Strategy', sold: 115 },
+    //         { genre: 'Action', sold: 120 },
+    //         { genre: 'Shooter', sold: 350 },
+    //         { genre: 'Other', sold: 150 },
+    //     ];
 
-    const options = ["Details", "Départements", "Employees", "Activities", "Inventaires"];
-    const employees = {
-        "Entreprise 1": ["Employee 1", "Employee 2"],
-        "Entreprise 2": ["Employee 3", "Employee 4"],
-        "Entreprise 3": ["Employee 5", "Employee 6"],
-    };
+    //     // Initialize chart instance
+    //     const chart = new Chart({
+    //         container: 'graph1',
+    //         width: 600,
+    //         height: 400,
+    //     });
 
-    const showModal = () => {
-        setIsModalVisible(true);
-    };
+    //     // Declare visualization
+    //     chart
+    //         .interval() // Create an Interval tag
+    //         .data(dataChart) // Bind data
+    //         .encode('x', 'genre') // Encode x channel
+    //         .encode('y', 'sold'); // Encode y channel
 
-    const handleOk = () => {
-        setEnterprises([...enterprises, { ...newEnterprise }]);
-        setNewEnterprise({ code: "", raisonSociale: "", nif: "", stat: "" });
-        setIsModalVisible(false);
-    };
+    //     // Render visualization
+    //     chart.render();
+    // }, []);
 
-    const handleCancel = () => {
-        setIsModalVisible(false);
-    };
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setNewEnterprise({ ...newEnterprise, [name]: value });
+    const handleFormSubmit = (values) => {
+        setData(values);
     };
 
     return (
-        <Layout style={{ height: "100%" }}>
-            <Layout>
-                <Sider
-                    width={200}
-                    className="site-layout-background"
-                    style={{ backgroundColor: "#f0f2f5" }}
-                >
-                    <Menu
-                        mode="inline"
-                        defaultSelectedKeys={["1"]}
-                        style={{ height: "100%",  display: "flex", alignItems: "center", flexDirection: "column" }}
-                        onClick={({ key }) => setSelectedEnterprise(enterprises.find(ent => ent.raisonSociale === key))}
-                    >
-                        {enterprises.map((enterprise) => (
-                            <Menu.Item key={enterprise.raisonSociale} style={{ color: "#000" }}>
-                                {enterprise.raisonSociale}
-                            </Menu.Item>
-                        ))}
-                        <Button type="dashed" style={{ marginTop: "16px" }} icon={<FileAddOutlined />} onClick={showModal}>
-                            Nouveau entreprise
-                        </Button>
-                    </Menu>
-                </Sider>
-                <Layout style={{ padding: "0" }}>
-                    <Sider
-                        width={200}
-                        className="site-layout-background"
-                        style={{ backgroundColor: "#fafafa" }}
-                    >
-                        {selectedEnterprise && (
-                            <Menu
-                                mode="inline"
-                                style={{ height: "100%" , backgroundColor:"#fafafa" }}
-                                onClick={({ key }) => setSelectedOption(key)}
-                            >
-                                {options.map((option) => (
-                                    <Menu.Item key={option} style={{ color: "#000" }}>
-                                        {option}
-                                    </Menu.Item>
-                                ))}
-                            </Menu>
-                        )}
-                    </Sider>
-                    <Content
-                        style={{
-                            padding: 24,
-                            margin: 0,
-                            minHeight: 280,
-                            backgroundColor: "#fff",
-                        }}
-                    >
-                        {selectedOption === "Details" && selectedEnterprise && (
-                            <div>
-                                <Form layout="vertical">
-                                    <Form.Item label="Code">
-                                        <Input value={selectedEnterprise.code} readOnly />
-                                    </Form.Item>
-                                    <Form.Item label="Raison Sociale">
-                                        <Input value={selectedEnterprise.raisonSociale} readOnly />
-                                    </Form.Item>
-                                    <Form.Item label="NIF">
-                                        <Input value={selectedEnterprise.nif} readOnly />
-                                    </Form.Item>
-                                    <Form.Item label="STAT">
-                                        <Input value={selectedEnterprise.stat} readOnly />
-                                    </Form.Item>
-                                </Form>
-                                <Card title={selectedEnterprise.raisonSociale}>
-                                    <p style={{ color: "#000" }}>
-                                        Code: {selectedEnterprise.code}<br />
-                                        NIF: {selectedEnterprise.nif}<br />
-                                        STAT: {selectedEnterprise.stat}
-                                    </p>
-                                </Card>
+        <Layout>
+            <Content style={{ padding: '20px' }}>
+                <Row gutter={16}>
+                    <Col span={12}>
+                        <Card title="Carte de visite">
+                            <p><strong>Nom: </strong>{data.name}</p>
+                            <p><strong>Adresse: </strong>{data.address}</p>
+                            <p><strong>Code: </strong>{data.code}</p>
+                            <p><strong>Raison Sociale: </strong>{data.raisonSocial}</p>
+                            <p><strong>NIF/STAT: </strong>{data.nifStat}</p>
+                        </Card>
+                        <Card title="Statistiques de l'entreprise" style={{ marginTop: '20px' }}>
+                            <div id="graph1">
+                                GRAPHIQUE
                             </div>
-                        )}
-                        {selectedOption === "Employees" && selectedEnterprise && (
-                            <List
-                                bordered
-                                dataSource={employees[selectedEnterprise.raisonSociale]}
-                                renderItem={(employee) => (
-                                    <List.Item style={{ color: "#000" }}>
-                                        {employee}
-                                    </List.Item>
-                                )}
-                            />
-                        )}
-                        {selectedOption === "Activities" && selectedEnterprise && (
-                            <div>
-                                <p style={{ color: "#000" }}>No activities available.</p>
-                            </div>
-                        )}
-                    </Content>
-                </Layout>
-            </Layout>
-
-            <Modal title="Add Enterprise" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                <Form layout="vertical">
-                    <Form.Item label="Code">
-                        <Input name="code" value={newEnterprise.code} onChange={handleInputChange} />
-                    </Form.Item>
-                    <Form.Item label="Raison Sociale">
-                        <Input name="raisonSociale" value={newEnterprise.raisonSociale} onChange={handleInputChange} />
-                    </Form.Item>
-                    <Form.Item label="NIF">
-                        <Input name="nif" value={newEnterprise.nif} onChange={handleInputChange} />
-                    </Form.Item>
-                    <Form.Item label="STAT">
-                        <Input name="stat" value={newEnterprise.stat} onChange={handleInputChange} />
-                    </Form.Item>
-                </Form>
-            </Modal>
+                        </Card>
+                    </Col>
+                    <Col span={12}>
+                        <Card title="Détails de l'entreprise">
+                            <Form form={form} layout="vertical" initialValues={data} onFinish={handleFormSubmit}>
+                                <Form.Item name="name" label="Nom">
+                                    <Input />
+                                </Form.Item>
+                                <Form.Item name="address" label="Adresse">
+                                    <Input />
+                                </Form.Item>
+                                <Form.Item name="code" label="Code">
+                                    <Input />
+                                </Form.Item>
+                                <Form.Item name="raisonSocial" label="Raison Sociale">
+                                    <Input />
+                                </Form.Item>
+                                <Form.Item name="nifStat" label="NIF/STAT">
+                                    <Input />
+                                </Form.Item>
+                                <Form.Item>
+                                    <Button type="primary" htmlType="submit">Enregistrer</Button>
+                                </Form.Item>
+                            </Form>
+                        </Card>
+                    </Col>
+                </Row>
+            </Content>
         </Layout>
     );
 }
